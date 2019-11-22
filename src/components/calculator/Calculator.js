@@ -1,4 +1,5 @@
 import React from 'react';
+import CalculatorButton from '../calculatorButton/CalculatorButton';
 
 class Calculator extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Calculator extends React.Component {
     return unstackedItem; 
   }
 
-  addToStack = (stringOrNumberToAdd) => {
+  addToStack = (stringOrNumberToAdd) => {  
     if (parseFloat(stringOrNumberToAdd) === 0) return
     
     const newStack = [...this.state.stack]
@@ -83,6 +84,9 @@ class Calculator extends React.Component {
     this._unstack()
   }
 
+  pushToCurrentNumber = (number) => {
+    this.setState({currentNumber: this.state.currentNumber + number})
+  }
   render() {
     let stackItems = []
 
@@ -94,21 +98,43 @@ class Calculator extends React.Component {
       
     }
 
+    const BUTTONS_MAP = [ // It allows to change order of buttons to display them as we want
+      { value: 'SWAP', operation: this.swap },
+      { value: '±',operation: this.invert },
+      { value: '+',operation: this.add },
+      { value: '1',operation: () => this.pushToCurrentNumber('1') },
+      { value: '2',operation: () => this.pushToCurrentNumber('2') },
+      { value: '3',operation: () => this.pushToCurrentNumber('3') },
+      { value: '-',operation: this.substract },
+      { value: '4',operation: () => this.pushToCurrentNumber('4') },
+      { value: '5',operation: () => this.pushToCurrentNumber('5') },
+      { value: '6',operation: () => this.pushToCurrentNumber('6') },
+      { value: '*',operation: this.multiple },
+      { value: '7',operation: () => this.pushToCurrentNumber('7') },
+      { value: '8',operation: () => this.pushToCurrentNumber('8') },
+      { value: '9',operation: () => this.pushToCurrentNumber('9') },
+      { value: '/',operation: this.divide },
+      { value: 'DROP',operation: this.drop },
+      { value: '0',operation: () => this.pushToCurrentNumber('0') },
+      { value: 'ENTER',operation: () => this.addToStack(this.state.currentNumber) },
+    ]
+
+    let buttons = []
+    for (let i = 0; i < BUTTONS_MAP.length; i++) {
+      const element = BUTTONS_MAP[i];
+      buttons.push(<CalculatorButton printedValue={element.value} operation={element.operation} key={i} /> )
+    }
+
     return (
-      <div id="calculator">
+      <span id="calculator">
         <div>
           { stackItems }
         </div>
           <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
-          <button onClick={() => this.addToStack(this.state.currentNumber)}> ENTER </button>
-          <button onClick={this.add}> + </button>
-          <button onClick={this.substract}> - </button>
-          <button onClick={this.multiple}> * </button>
-          <button onClick={this.divide}> / </button>
-          <button onClick={this.invert}> ± </button>
-          <button onClick={this.swap}> SWAP </button>
-          <button onClick={this.drop}> DROP </button>
-      </div>
+          <div>
+            {buttons}
+          </div>
+      </span>
     );
   }
 }
