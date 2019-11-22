@@ -11,12 +11,72 @@ class Calculator extends React.Component {
           value : 12
         }
       ],
-      currentNumber: 0
+      currentNumber: "0"
     };
   }
 
-  handleChange = (event) => {   
-    this.setState({currentNumber: event.target.value});
+  _handleKeydown = (event) => {
+    if (event.keyCode === 8) this.popCurrentNumber()
+  }
+
+  _handleKeypress = (event) => {
+    console.log(event.keyCode);
+    switch (event.keyCode) {
+      case 48:
+        this.pushToCurrentNumber('0')
+        break;
+      case 49:
+        this.pushToCurrentNumber('1')
+        break;
+      case 50:
+        this.pushToCurrentNumber('2')
+        break;
+      case 51:
+        this.pushToCurrentNumber('3')
+        break;
+      case 52:
+        this.pushToCurrentNumber('4')
+        break;
+      case 53:
+        this.pushToCurrentNumber('5')
+        break;
+      case 54:
+        this.pushToCurrentNumber('6')
+        break;
+      case 55:
+        this.pushToCurrentNumber('7')
+        break;
+      case 56:
+        this.pushToCurrentNumber('8')
+        break;
+      case 57:
+        this.pushToCurrentNumber('9')
+        break;
+      case 46:
+        this.pushToCurrentNumber('.')
+        break;
+      case 43: // +
+        this.add()
+        break;
+      case 45: // -
+        this.substract()
+        break;
+      case 47: // /
+        this.divide()
+        break;
+      case 42: // *
+        this.multiple()
+        break;
+      case 177: // ±
+        this.invert()
+        break;
+      case 13: // ENTER
+        this.addToStack(this.state.currentNumber)
+        break;
+    
+      default:
+        break;
+    }
   }
 
   _clearCurrentNumber = () => {
@@ -85,9 +145,28 @@ class Calculator extends React.Component {
     this._unstack()
   }
 
-  pushToCurrentNumber = (number) => {
-    this.setState({currentNumber: this.state.currentNumber + number})
+  popCurrentNumber = () => {
+    if (!this.state.currentNumber.length || this.state.currentNumber.length === 0) return
+
+    const newCurrentNumber = [...this.state.currentNumber]
+    newCurrentNumber.pop();
+    this.setState({currentNumber: newCurrentNumber});
   }
+
+  pushToCurrentNumber = (number) => {
+    parseFloat(this.state.currentNumber) === 0 ? this.setState({currentNumber: number}) : this.setState({currentNumber: this.state.currentNumber + number})
+  }
+
+  componentDidMount = () => {
+    document.addEventListener("keypress", this._handleKeypress);
+    document.addEventListener("keydown", this._handleKeydown);
+  }
+  
+  componentWillUnmount = () => {
+
+    document.removeEventListener("keydown", this._handleKeydown);
+  }
+
   render() {
     let stackItems = []
 
@@ -100,6 +179,7 @@ class Calculator extends React.Component {
     }
 
     const BUTTONS_MAP = [ // It allows to change order of buttons to display them as we want
+      { value: 'SUPR', operation: this.popCurrentNumber },
       { value: 'SWAP', operation: this.swap },
       { value: '±',operation: this.invert },
       { value: '+',operation: this.add },
@@ -118,6 +198,7 @@ class Calculator extends React.Component {
       { value: 'DROP',operation: this.drop },
       { value: '0',operation: () => this.pushToCurrentNumber('0') },
       { value: 'ENTER',operation: () => this.addToStack(this.state.currentNumber) },
+      { value: '.',operation: () => this.pushToCurrentNumber('.') },
     ]
 
     let buttons = []
@@ -140,10 +221,7 @@ class Calculator extends React.Component {
 
           </div>
           <div className="calculator-buttons-container">
-            <div className="spacer"></div>
             { buttons }
-            <div className="spacer"></div>
-
           </div>
         </div>
       </span>
