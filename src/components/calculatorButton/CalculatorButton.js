@@ -13,6 +13,7 @@ class CalculatorButton extends React.Component {
 
     return (
       <div id="calculator-button" onClick={this.props.operation}>
+        <div></div>
         <div className="calculator-content"> {this.props.printedValue} </div>
       </div>
     );

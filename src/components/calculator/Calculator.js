@@ -133,9 +133,11 @@ class Calculator extends React.Component {
             <ul className="calculator-screen">
               { stackItems }
             </ul>
-            <div className="calculator-screen">
-              <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
+            <div className="calculator-screen flex">
+              <span>:</span>
+              {this.state.currentNumber}
             </div>
+
           </div>
           <div className="calculator-buttons-container">
             <div className="spacer"></div>

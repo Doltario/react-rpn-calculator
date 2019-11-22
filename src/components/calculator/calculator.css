@@ -1,16 +1,23 @@
 #calculator-container .calculator{
   width: 100vw;
-  max-width: 300px;
-  background-color: green;
+  max-width: 400px;
+  background-color: #727072;
+  border-radius: 2px;
+  overflow: hidden;
 }
 #calculator-container .calculator-screen-container {
-
+  min-height: 60px;
 }
 
 #calculator-container .calculator-screen {
-  padding: 0;
+  padding: 15px;
   margin: 0;
   text-align: right;
+}
+
+#calculator-container .calculator-screen.flex {
+  display: flex;
+  justify-content: space-between;
 }
 
 #calculator-container .calculator-screen-item {
@@ -21,5 +28,5 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #fafafa;
+  background-color: #343434;
 }
