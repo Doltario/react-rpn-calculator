@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
@@ -22,22 +21,14 @@ class Calculator extends React.Component {
     this.setState({currentNumber: 0}); 
   }
 
-  _getTwoLastStackNumber = () => {
-    return [
-      this.state.stack[this.state.stack.length-2],
-      this.state.stack[this.state.stack.length-1]
-    ]
-  }
-
-  _unstack(numberOfItems) {
+  async _unstack() {
     const newStack = [...this.state.stack]
-    newStack.splice(newStack.length-1, 2)
+    const unstackedItem = newStack.splice(newStack.length - 1, 1)[0]
     this.setState({stack: newStack});
+    return unstackedItem; 
   }
 
   addToStack = (stringOrNumberToAdd) => {
-    console.log(stringOrNumberToAdd);
-    
     if (parseFloat(stringOrNumberToAdd) === 0) return
     
     const newStack = [...this.state.stack]
@@ -46,11 +37,11 @@ class Calculator extends React.Component {
     this._clearCurrentNumber();
   }
 
-  doAddition = () => {
-    const terms = this._getTwoLastStackNumber()
-    const result = terms.reduce((sum, term)=> { return sum.value += term.value })
-    this._unstack(2)
-    //this.addToStack(result)
+  add = async () => {
+    const firstTerm = await this._unstack()
+    const secondTerm = await this._unstack()
+    
+    this.addToStack(firstTerm.value + secondTerm.value)
   }
 
   render() {
@@ -69,12 +60,9 @@ class Calculator extends React.Component {
         <div>
           { stackItems }
         </div>
-          
-            {/* <input type="text" value={this.state.value} onChange={this.handleChange} /> */}
-          
           <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
           <button onClick={() => this.addToStack(this.state.currentNumber)}> coucou </button>
-          <button onClick={this.doAddition}> + </button>
+          <button onClick={this.add}> + </button>
       </div>
     );
   }
