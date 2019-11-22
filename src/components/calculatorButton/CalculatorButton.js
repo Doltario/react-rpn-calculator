@@ -1,4 +1,5 @@
 import React from 'react';
+import './calculator-button.css';
 
 class CalculatorButton extends React.Component {
   constructor(props) {
@@ -11,9 +12,9 @@ class CalculatorButton extends React.Component {
   render() {
 
     return (
-      <span id="button">
-        <button onClick={this.props.operation}> {this.props.printedValue} </button>
-      </span>
+      <div id="calculator-button" onClick={this.props.operation}>
+        <div className="calculator-content"> {this.props.printedValue} </div>
+      </div>
     );
   }
 }

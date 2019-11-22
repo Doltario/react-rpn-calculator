@@ -1,5 +1,6 @@
 import React from 'react';
 import CalculatorButton from '../calculatorButton/CalculatorButton';
+import './calculator.css';
 
 class Calculator extends React.Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class Calculator extends React.Component {
     for (let i = 0; i < this.state.stack.length; i++) {
       const element = this.state.stack[i]
       stackItems.push(
-        <li key={i}>{element.value}</li>
+        <li className="calculator-screen-item" key={i}>{element.value}</li>
       );
       
     }
@@ -126,14 +127,23 @@ class Calculator extends React.Component {
     }
 
     return (
-      <span id="calculator">
-        <div>
-          { stackItems }
-        </div>
-          <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
-          <div>
-            {buttons}
+      <span id="calculator-container">
+        <div className="calculator">
+          <div className="calculator-screen-container">
+            <ul className="calculator-screen">
+              { stackItems }
+            </ul>
+            <div className="calculator-screen">
+              <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
+            </div>
           </div>
+          <div className="calculator-buttons-container">
+            <div className="spacer"></div>
+            { buttons }
+            <div className="spacer"></div>
+
+          </div>
+        </div>
       </span>
     );
   }
