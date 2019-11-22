@@ -80,6 +80,7 @@ class Calculator extends React.Component {
   }
 
   async _unstack() {
+    if (this.state.stack.length === 0) return
     const newStack = [...this.state.stack]
     const unstackedItem = newStack.splice(newStack.length - 1, 1)[0]
     this.setState({stack: newStack});
@@ -96,6 +97,7 @@ class Calculator extends React.Component {
   }
 
   add = async () => {
+    if (this.state.stack.length < 2) return
     const lastStackItem = await this._unstack()
     const secondToLastStackItem = await this._unstack()
     
@@ -103,6 +105,7 @@ class Calculator extends React.Component {
   }
 
   substract = async () => {
+    if (this.state.stack.length < 2) return
     const lastStackItem = await this._unstack()
     const secondToLastStackItem = await this._unstack()
     
@@ -110,6 +113,7 @@ class Calculator extends React.Component {
   }
 
   multiple = async () => {
+    if (this.state.stack.length < 2) return
     const lastStackItem = await this._unstack()
     const secondToLastStackItem = await this._unstack()
     
@@ -117,6 +121,7 @@ class Calculator extends React.Component {
   }
   
   divide = async () => {
+    if (this.state.stack.length < 2) return
     const lastStackItem = await this._unstack()
     const secondToLastStackItem = await this._unstack()
     
@@ -124,12 +129,14 @@ class Calculator extends React.Component {
   }
 
   invert = async () => {
+    if (this.state.stack.length === 0) return
     const lastStackItem = await this._unstack()
     
     this.addToStack(lastStackItem.value * -1)
   }
 
   swap = async () => {
+    if (this.state.stack.length < 2) return
     const lastStackItem = await this._unstack()
     const secondToLastStackItem = await this._unstack()
     
