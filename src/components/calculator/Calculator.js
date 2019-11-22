@@ -6,11 +6,7 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stack: [
-        {
-          value : 12
-        }
-      ],
+      stack: [],
       currentNumber: "0"
     };
   }
