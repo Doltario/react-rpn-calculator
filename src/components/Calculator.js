@@ -38,10 +38,49 @@ class Calculator extends React.Component {
   }
 
   add = async () => {
-    const firstTerm = await this._unstack()
-    const secondTerm = await this._unstack()
+    const lastStackItem = await this._unstack()
+    const secondToLastStackItem = await this._unstack()
     
-    this.addToStack(firstTerm.value + secondTerm.value)
+    this.addToStack(secondToLastStackItem.value + lastStackItem.value)
+  }
+
+  substract = async () => {
+    const lastStackItem = await this._unstack()
+    const secondToLastStackItem = await this._unstack()
+    
+    this.addToStack(secondToLastStackItem.value - lastStackItem.value)
+  }
+
+  multiple = async () => {
+    const lastStackItem = await this._unstack()
+    const secondToLastStackItem = await this._unstack()
+    
+    this.addToStack(secondToLastStackItem.value * lastStackItem.value)
+  }
+  
+  divide = async () => {
+    const lastStackItem = await this._unstack()
+    const secondToLastStackItem = await this._unstack()
+    
+    this.addToStack(secondToLastStackItem.value / lastStackItem.value)
+  }
+
+  invert = async () => {
+    const lastStackItem = await this._unstack()
+    
+    this.addToStack(lastStackItem.value * -1)
+  }
+
+  swap = async () => {
+    const lastStackItem = await this._unstack()
+    const secondToLastStackItem = await this._unstack()
+    
+    this.addToStack(lastStackItem.value)
+    this.addToStack(secondToLastStackItem.value)
+  }
+
+  drop = async () => {
+    this._unstack()
   }
 
   render() {
@@ -61,8 +100,14 @@ class Calculator extends React.Component {
           { stackItems }
         </div>
           <input value={this.state.currentNumber} onChange={this.handleChange} type="text"/>
-          <button onClick={() => this.addToStack(this.state.currentNumber)}> coucou </button>
+          <button onClick={() => this.addToStack(this.state.currentNumber)}> ENTER </button>
           <button onClick={this.add}> + </button>
+          <button onClick={this.substract}> - </button>
+          <button onClick={this.multiple}> * </button>
+          <button onClick={this.divide}> / </button>
+          <button onClick={this.invert}> ± </button>
+          <button onClick={this.swap}> SWAP </button>
+          <button onClick={this.drop}> DROP </button>
       </div>
     );
   }
